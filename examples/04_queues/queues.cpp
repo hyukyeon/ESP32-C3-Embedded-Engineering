@@ -5,7 +5,11 @@
 
 #include <Arduino.h>
 
+// Global Handles
 QueueHandle_t data_queue;
+
+// Function Prototypes
+void sender(void *p);
 
 void sender(void *p) {
     int val = 0;

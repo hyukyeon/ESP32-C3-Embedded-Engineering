@@ -5,6 +5,9 @@
 
 #include <Arduino.h>
 
+// Function Prototypes
+uint32_t read_mcycle();
+
 uint32_t read_mcycle() {
     uint32_t count;
     __asm__ __volatile__ ("csrr %0, mcycle" : "=r"(count));

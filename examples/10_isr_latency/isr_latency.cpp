@@ -1,12 +1,15 @@
 /*
  * Feature: ISR Latency Measurement
- * Description: Measuring cycles from interrupt trigger to ISR execution.
  */
 
 #include <Arduino.h>
 
-volatile uint32_t trigger_time = 0;
+// Global Volatiles
 volatile uint32_t isr_time = 0;
+
+// Function Prototypes
+uint32_t IRAM_ATTR get_cycles_isr();
+void IRAM_ATTR handle_interrupt();
 
 uint32_t IRAM_ATTR get_cycles_isr() {
     uint32_t c;
@@ -28,12 +31,11 @@ void setup() {
 void loop() {
     delay(2000);
     
-    // Trigger interrupt by software (connect Pin 3 to Pin 2)
     digitalWrite(3, HIGH);
     delay(10);
     
     uint32_t t_start = get_cycles_isr();
-    digitalWrite(3, LOW); // Trigger FALLING
+    digitalWrite(3, LOW); 
     
     delay(100);
     Serial.printf("Interrupt Latency (Cycles): %u\n", isr_time - t_start);

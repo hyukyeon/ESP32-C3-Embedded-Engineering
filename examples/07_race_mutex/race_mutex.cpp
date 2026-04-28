@@ -5,15 +5,15 @@
 
 #include <Arduino.h>
 
+// Global Resources
 volatile int shared_counter = 0;
 SemaphoreHandle_t xMutex;
 
+// Function Prototypes
+void increment_task(void *pv);
+
 void increment_task(void *pv) {
     for (int i = 0; i < 10000; i++) {
-        // [Unsafe Version]
-        // shared_counter++; 
-
-        // [Safe Version]
         if (xSemaphoreTake(xMutex, portMAX_DELAY)) {
             shared_counter++;
             xSemaphoreGive(xMutex);

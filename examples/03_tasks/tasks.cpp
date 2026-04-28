@@ -5,8 +5,11 @@
 
 #include <Arduino.h>
 
+// Function Prototypes
+void blink_task(void *pvParameters);
+
 void blink_task(void *pvParameters) {
-    pinMode(8, OUTPUT); // Built-in LED on many C3 boards
+    pinMode(8, OUTPUT); 
     for (;;) {
         digitalWrite(8, !digitalRead(8));
         vTaskDelay(pdMS_TO_TICKS(500));

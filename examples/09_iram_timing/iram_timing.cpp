@@ -1,16 +1,18 @@
 /*
  * Feature: IRAM vs Flash Timing
- * Description: Measuring performance difference between Flash and SRAM execution.
  */
 
 #include <Arduino.h>
 
-// Function in SRAM
+// Function Prototypes
+void IRAM_ATTR fast_function();
+void slow_function();
+uint32_t get_cycles();
+
 void IRAM_ATTR fast_function() {
     for(volatile int i=0; i<100; i++);
 }
 
-// Function in Flash
 void slow_function() {
     for(volatile int i=0; i<100; i++);
 }

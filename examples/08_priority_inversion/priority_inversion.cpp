@@ -1,32 +1,37 @@
 /*
  * Feature: Priority Inversion
- * Description: Demonstrating how a medium priority task can block a high priority task.
  */
 
 #include <Arduino.h>
 
+// Global Handles
 SemaphoreHandle_t xResource;
+
+// Function Prototypes
+void task_low(void *p);
+void task_mid(void *p);
+void task_high(void *p);
 
 void task_low(void *p) {
     for(;;) {
         xSemaphoreTake(xResource, portMAX_DELAY);
         Serial.println("Low task holding resource...");
-        delay(3000); // Simulate long work
+        delay(3000); 
         xSemaphoreGive(xResource);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
 
 void task_mid(void *p) {
-    vTaskDelay(pdMS_TO_TICKS(500)); // Start after Low
+    vTaskDelay(pdMS_TO_TICKS(500));
     for(;;) {
-        Serial.println("Mid task running (No resource needed)...");
+        Serial.println("Mid task running...");
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
 
 void task_high(void *p) {
-    vTaskDelay(pdMS_TO_TICKS(1000)); // Start last
+    vTaskDelay(pdMS_TO_TICKS(1000));
     for(;;) {
         Serial.println("High task trying to take resource...");
         xSemaphoreTake(xResource, portMAX_DELAY);
@@ -45,4 +50,4 @@ void setup() {
     xTaskCreate(task_high, "High", 2048, NULL, 3, NULL);
 }
 
-void loop() { vTaskDelete(NULL); }
+void loop() { vTaskDelay(portMAX_DELAY); }
