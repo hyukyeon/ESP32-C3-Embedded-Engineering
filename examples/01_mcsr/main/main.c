@@ -1,16 +1,20 @@
 /*
  * 01_mcsr: RISC-V Machine CSR Access
  *
- * Demonstrates direct access to Machine-mode Control and Status Registers:
- *   mcycle / mcycleh  - 64-bit hardware cycle counter
- *   minstret          - instructions retired counter
- *   misa              - ISA capabilities
- *   mhartid           - hardware thread ID
+ * Demonstrates direct access to Machine-mode Control and Status Registers.
  *
- * Key insight: mcycle counts every CPU clock tick (160 MHz = 1 tick per 6.25 ns),
- * giving nanosecond-precision profiling without any OS timer overhead.
+ * ESP32-C3 Note: The standard mcycle (0xB00), mcycleh (0xB80), and minstret
+ * (0xB02) CSRs are NOT implemented. Reading them raises Illegal Instruction.
+ * The ESP32-C3 uses a custom 32-bit performance counter register:
+ *   PCER (0x7E0) - event select  (pre-configured by boot ROM to count cycles)
+ *   PCMR (0x7E1) - enable/mode
+ *   PCCR (0x7E2) - 32-bit count value  ← equivalent of mcycle on this chip
+ *
+ * This example reads PCCR (0x7E2) for cycle measurement.  minstret is
+ * unavailable; the IPC column is omitted from profiling output.
  */
 #include <stdio.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
@@ -24,20 +28,15 @@ static const char *TAG = "MCSR";
 
 static inline uint32_t csr_mcycle(void) {
     uint32_t v;
-    __asm__ __volatile__("csrr %0, mcycle" : "=r"(v) :: "memory");
-    return v;
-}
-
-static inline uint32_t csr_mcycleh(void) {
-    uint32_t v;
-    __asm__ __volatile__("csrr %0, mcycleh" : "=r"(v) :: "memory");
+    /* ESP32-C3 replaces standard mcycle (0xB00) with custom PCCR at 0x7E2.
+     * Both mcycle and mcycleh raise Illegal Instruction on this chip. */
+    __asm__ __volatile__("csrr %0, 0x7e2" : "=r"(v) :: "memory");
     return v;
 }
 
 static inline uint32_t csr_minstret(void) {
-    uint32_t v;
-    __asm__ __volatile__("csrr %0, minstret" : "=r"(v) :: "memory");
-    return v;
+    /* minstret (0xB02) is NOT implemented on ESP32-C3; returns 0. */
+    return 0;
 }
 
 static inline uint32_t csr_misa(void) {
@@ -53,18 +52,21 @@ static inline uint32_t csr_mhartid(void) {
 }
 
 /*
- * 64-bit safe read: re-reads if a carry from lo→hi happened mid-read.
- * Without this, a read across a 32-bit rollover (~26 s at 160 MHz)
- * can produce a value that is off by ~2^32.
+ * mcycleh (CSR 0xB80) is OPTIONAL in RISC-V RV32 and NOT implemented on
+ * ESP32-C3. Accessing an absent CSR raises Illegal Instruction → reboot.
+ * We extend the mandatory 32-bit mcycle to 64 bits in software by detecting
+ * wrap-arounds. At 160 MHz the counter rolls over every ~26.8 s; calling
+ * this function at least that often prevents missing a wrap.
  */
 static uint64_t mcycle64(void) {
-    uint32_t hi1, lo, hi2;
-    do {
-        hi1 = csr_mcycleh();
-        lo  = csr_mcycle();
-        hi2 = csr_mcycleh();
-    } while (hi1 != hi2);
-    return ((uint64_t)hi1 << 32) | lo;
+    static uint32_t prev_lo = 0;
+    static uint64_t hi_bits = 0;
+    uint32_t lo = csr_mcycle();
+    if (lo < prev_lo) {
+        hi_bits += (uint64_t)1 << 32;   /* wrap-around detected */
+    }
+    prev_lo = lo;
+    return hi_bits | (uint64_t)lo;
 }
 
 /* ---------- MISA decoder ---------- */
@@ -116,11 +118,10 @@ static PerfSample profile_begin(void) {
 }
 
 static void profile_end(PerfSample start, const char *label, volatile uint32_t result) {
-    uint32_t cy = csr_mcycle()   - start.cycles;
-    uint32_t ir = csr_minstret() - start.instrs;
-    double ipc  = (cy > 0) ? (double)ir / cy : 0.0;
-    printf("  [%-18s]  result=%-10u  cycles=%-6u  instrs=%-6u  time=%-8.1f ns  IPC=%.2f\n",
-           label, result, cy, ir, CYCLES_TO_NS(cy), ipc);
+    uint32_t cy = csr_mcycle() - start.cycles;
+    /* minstret unavailable on ESP32-C3; IPC omitted */
+    printf("  [%-18s]  result=%-10" PRIu32 "  cycles=%-6" PRIu32 "  time=%-8.1f ns\n",
+           label, result, cy, CYCLES_TO_NS(cy));
 }
 
 /* ---------- app_main ---------- */
@@ -130,18 +131,18 @@ void app_main(void) {
 
     /* --- One-time hardware identity dump --- */
     printf("\n[Hardware Identity]\n");
-    printf("  mhartid : %u  (single-core ESP32-C3 is always 0)\n", csr_mhartid());
-    printf("  misa    : 0x%08X\n", csr_misa());
+    printf("  mhartid : %" PRIu32 "  (single-core ESP32-C3 is always 0)\n", csr_mhartid());
+    printf("  misa    : 0x%08" PRIX32 "\n", csr_misa());
     print_misa(csr_misa());
 
     uint64_t boot_cycles = mcycle64();
-    printf("  Cycles since reset: %llu  (~%.1f ms at 160 MHz)\n\n",
+    printf("  Cycles since reset: %" PRIu64 "  (~%.1f ms at 160 MHz)\n\n",
            boot_cycles, (double)boot_cycles / (CPU_FREQ_HZ / 1000.0));
 
     uint32_t iter = 0;
     while (1) {
         iter++;
-        printf("--- Iteration %u ---\n", iter);
+        printf("--- Iteration %" PRIu32 " ---\n", iter);
 
         /* --- Benchmark 1: sum (tests ADD throughput) --- */
         PerfSample s1 = profile_begin();
@@ -158,12 +159,13 @@ void app_main(void) {
         vTaskDelay(pdMS_TO_TICKS(100));
         uint64_t after  = mcycle64();
         uint64_t delta  = after - before;
-        printf("  [vTaskDelay 100 ms]  actual = %.3f ms  (delta = %llu cycles)\n",
+        printf("  [vTaskDelay 100 ms]  actual = %.3f ms  (delta = %" PRIu64 " cycles)\n",
                (double)delta / (CPU_FREQ_HZ / 1000.0), delta);
 
         /* --- 64-bit uptime --- */
-        printf("  [Uptime]  %llu cycles  = %.3f s\n\n",
-               mcycle64(), (double)mcycle64() / (double)CPU_FREQ_HZ);
+        uint64_t uptime = mcycle64();
+        printf("  [Uptime]  %" PRIu64 " cycles  = %.3f s\n\n",
+               uptime, (double)uptime / (double)CPU_FREQ_HZ);
 
         vTaskDelay(pdMS_TO_TICKS(3000));
     }

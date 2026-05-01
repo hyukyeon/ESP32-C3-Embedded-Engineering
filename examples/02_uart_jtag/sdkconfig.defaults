@@ -1,0 +1,4 @@
+# Route both stdin and stdout through the built-in USB-Serial/JTAG CDC port.
+# Without this, stdin defaults to UART0 (GPIO20) while idf.py monitor sends
+# keystrokes over USB CDC → getchar() never sees the input.
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y

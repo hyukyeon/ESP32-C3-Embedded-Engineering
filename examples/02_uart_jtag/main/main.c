@@ -20,15 +20,12 @@
 #include "esp_log.h"
 #include "esp_chip_info.h"
 #include "esp_idf_version.h"
-#include "driver/uart.h"
-#include "driver/gpio.h"
 
 static const char *TAG = "UART_JTAG";
 
-#define UART_PORT    UART_NUM_0
-#define UART_BUF_SZ  512
-#define ECHO_PIN_TX  GPIO_NUM_21   /* HW UART0 TX — ROM bootloader uses this */
-#define ECHO_PIN_RX  GPIO_NUM_20   /* HW UART0 RX */
+/* GPIO18(D-)/GPIO19(D+) — USB-Serial/JTAG PHY pins (reference only) */
+#define USB_JTAG_DM  18
+#define USB_JTAG_DP  19
 
 /* ---------- chip info ---------- */
 
@@ -52,41 +49,38 @@ static void print_chip_info(void) {
 
 /* ---------- echo task ---------- */
 
+/*
+ * On ESP32-C3 the console (stdin/stdout) is routed through the built-in
+ * USB-Serial/JTAG CDC port (GPIO18/19).  Reading via getchar() receives
+ * keystrokes sent by `idf.py monitor` or any serial terminal.
+ * uart_read_bytes(UART_NUM_0) reads the *hardware* UART RX pin (GPIO20)
+ * which is a completely separate peripheral — that's why it never saw input.
+ */
 static void echo_task(void *arg) {
-    uint8_t  buf[64];
+    char     buf[64];
+    int      idx = 0;
     uint32_t echo_count = 0;
 
-    /* Install UART driver for bidirectional use on the same CDC port */
-    uart_config_t cfg = {
-        .baud_rate  = 115200,
-        .data_bits  = UART_DATA_8_BITS,
-        .parity     = UART_PARITY_DISABLE,
-        .stop_bits  = UART_STOP_BITS_1,
-        .flow_ctrl  = UART_HW_FLOWCTRL_DISABLE,
-    };
-    uart_param_config(UART_PORT, &cfg);
-    uart_driver_install(UART_PORT, UART_BUF_SZ * 2, 0, 0, NULL, 0);
-
-    ESP_LOGI(TAG, "[Echo] Ready — type anything, it will be echoed back");
+    ESP_LOGI(TAG, "[Echo] Ready — type anything and press Enter");
 
     while (1) {
-        int len = uart_read_bytes(UART_PORT, buf, sizeof(buf) - 1,
-                                  pdMS_TO_TICKS(50));
-        if (len > 0) {
-            buf[len] = '\0';
-            echo_count++;
-            /* Strip CR/LF for cleaner log */
-            while (len > 0 &&
-                   (buf[len - 1] == '\r' || buf[len - 1] == '\n')) {
-                buf[--len] = '\0';
-            }
-            ESP_LOGI(TAG, "[Echo #%u] '%s' (%d bytes)", echo_count, buf, len);
-            /* Echo back with newline */
-            char reply[80];
-            int  rlen = snprintf(reply, sizeof(reply), ">> %s\r\n", buf);
-            uart_write_bytes(UART_PORT, reply, rlen);
+        int c = getchar();
+        if (c == EOF) {
+            vTaskDelay(pdMS_TO_TICKS(10));
+            continue;
         }
-        vTaskDelay(pdMS_TO_TICKS(10));
+        if (c == '\n' || c == '\r') {
+            if (idx > 0) {
+                buf[idx] = '\0';
+                echo_count++;
+                ESP_LOGI(TAG, "[Echo #%u] '%s' (%d bytes)", echo_count, buf, idx);
+                printf(">> %s\r\n", buf);
+                fflush(stdout);
+                idx = 0;
+            }
+        } else if (idx < (int)sizeof(buf) - 1) {
+            buf[idx++] = (char)c;
+        }
     }
 }
 
@@ -99,10 +93,10 @@ static void heartbeat_task(void *arg) {
         sec += 2;
 
         /* Demonstrate all log levels — each has a distinct color in idf.py monitor */
-        if (sec % 10 == 0) {
-            ESP_LOGW(TAG, "[t=%us] WARN  — something unusual but not fatal", sec);
-        } else if (sec % 30 == 0) {
+        if (sec % 30 == 0) {
             ESP_LOGE(TAG, "[t=%us] ERROR — a real problem occurred", sec);
+        } else if (sec % 10 == 0) {
+            ESP_LOGW(TAG, "[t=%us] WARN  — something unusual but not fatal", sec);
         } else {
             ESP_LOGI(TAG, "[t=%us] INFO  — normal heartbeat", sec);
         }
@@ -114,8 +108,8 @@ static void heartbeat_task(void *arg) {
          * may never appear on the terminal.
          */
         if (sec % 20 == 0) {
-            ESP_LOGI(TAG, "Flushing TX buffer (uart_wait_tx_done)...");
-            uart_wait_tx_done(UART_PORT, pdMS_TO_TICKS(200));
+            ESP_LOGI(TAG, "Flushing TX buffer (fflush)...");
+            fflush(stdout);
             ESP_LOGI(TAG, "Flush done — safe to enter sleep or crash now");
         }
 
