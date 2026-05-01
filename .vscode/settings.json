@@ -1,0 +1,29 @@
+{
+  "idf.espIdfPath": "C:/esp/v6.0.1/esp-idf",
+  "idf.toolsPath": "C:/Espressif/tools",
+  "idf.pythonBinPath": "C:/Espressif/tools/python/v6.0.1/venv/Scripts/python.exe",
+  "idf.portWin": "COM4",
+  "idf.buildPath": "${workspaceFolder}/build",
+  "idf.openOcdConfigs": [
+    "board/esp32c3-builtin.cfg"
+  ],
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32c3",
+    "IDF_TOOLS_PATH": "C:/Espressif/tools",
+    "IDF_PYTHON_ENV_PATH": "C:/Espressif/tools/python/v6.0.1/venv",
+    "ESP_ROM_ELF_DIR": "C:/Espressif/tools/esp-rom-elfs/20241011"
+  },
+  "C_Cpp.default.configurationProvider": "ms-vscode.cpptools",
+  "C_Cpp.intelliSenseEngine": "default",
+  "clangd.path": "C:/Espressif/tools/esp-clang/esp-20.1.1_20250829/esp-clang/bin/clangd.exe",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=**",
+    "--compile-commands-dir=${workspaceFolder}/examples/01_mcsr/build"
+  ],
+  "files.exclude": {
+    "**/build": false
+  },
+  "idf.flashType": "JTAG",
+  "idf.currentSetup": "C:\\esp\\v6.0.1\\esp-idf"
+}

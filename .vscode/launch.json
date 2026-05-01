@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug 01_mcsr",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/01_mcsr/build/mcsr.elf",
+      "preLaunchTask": "Build 01_mcsr",
+      "miDebuggerServerAddress": "localhost:3333",
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/Espressif/tools/tools/riscv32-esp-elf/esp-15.2.0_20251204/riscv32-esp-elf/bin/riscv32-esp-elf-gdb.exe",
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}/examples/01_mcsr",
+      "setupCommands": [
+        { "text": "target extended-remote localhost:3333" },
+        { "text": "set remote hardware-breakpoint-limit 4" }
+      ]
+    },
+    {
+      "name": "Debug 02_uart_jtag",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/02_uart_jtag/build/02_uart_jtag.elf",
+      "preLaunchTask": "Build 02_uart_jtag",
+      "miDebuggerServerAddress": "localhost:3333",
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/Espressif/tools/tools/riscv32-esp-elf/esp-15.2.0_20251204/riscv32-esp-elf/bin/riscv32-esp-elf-gdb.exe",
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}/examples/02_uart_jtag",
+      "setupCommands": [
+        { "text": "target extended-remote localhost:3333" },
+        { "text": "set remote hardware-breakpoint-limit 4" }
+      ]
+    }
+  ]
+}

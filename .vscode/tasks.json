@@ -1,0 +1,530 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build 01_mcsr",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\01_mcsr","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 01_mcsr (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\01_mcsr","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 01_mcsr (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\01_mcsr","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 01_mcsr (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\01_mcsr","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 02_uart_jtag",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\02_uart_jtag","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 02_uart_jtag (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\02_uart_jtag","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 02_uart_jtag (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\02_uart_jtag","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 02_uart_jtag (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\02_uart_jtag","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 03_tasks",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\03_tasks","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 03_tasks (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\03_tasks","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 03_tasks (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\03_tasks","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 03_tasks (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\03_tasks","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 04_queues",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\04_queues","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 04_queues (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\04_queues","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 04_queues (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\04_queues","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 04_queues (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\04_queues","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 05_watchdog",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\05_watchdog","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 05_watchdog (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\05_watchdog","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 05_watchdog (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\05_watchdog","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 05_watchdog (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\05_watchdog","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 06_low_power",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\06_low_power","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 06_low_power (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\06_low_power","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 06_low_power (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\06_low_power","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 06_low_power (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\06_low_power","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 07_race_mutex",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\07_race_mutex","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 07_race_mutex (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\07_race_mutex","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 07_race_mutex (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\07_race_mutex","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 07_race_mutex (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\07_race_mutex","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 08_priority_inversion",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\08_priority_inversion","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 08_priority_inversion (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\08_priority_inversion","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 08_priority_inversion (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\08_priority_inversion","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 08_priority_inversion (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\08_priority_inversion","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 09_iram_timing",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\09_iram_timing","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 09_iram_timing (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\09_iram_timing","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 09_iram_timing (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\09_iram_timing","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 09_iram_timing (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\09_iram_timing","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 10_isr_latency",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\10_isr_latency","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 10_isr_latency (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\10_isr_latency","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 10_isr_latency (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\10_isr_latency","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 10_isr_latency (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\10_isr_latency","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 11_logic_analyzer",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\11_logic_analyzer","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 11_logic_analyzer (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\11_logic_analyzer","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 11_logic_analyzer (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\11_logic_analyzer","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 11_logic_analyzer (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\11_logic_analyzer","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 12_cache_miss",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\12_cache_miss","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 12_cache_miss (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\12_cache_miss","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 12_cache_miss (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\12_cache_miss","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 12_cache_miss (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\12_cache_miss","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 13_data_locality",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\13_data_locality","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 13_data_locality (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\13_data_locality","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 13_data_locality (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\13_data_locality","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 13_data_locality (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\13_data_locality","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 14_cache_coherency",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\14_cache_coherency","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 14_cache_coherency (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\14_cache_coherency","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 14_cache_coherency (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\14_cache_coherency","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 14_cache_coherency (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\14_cache_coherency","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 15_flash_mmu",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\15_flash_mmu","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 15_flash_mmu (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\15_flash_mmu","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 15_flash_mmu (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\15_flash_mmu","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 15_flash_mmu (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\15_flash_mmu","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 16_pmp_sandbox",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\16_pmp_sandbox","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 16_pmp_sandbox (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\16_pmp_sandbox","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 16_pmp_sandbox (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\16_pmp_sandbox","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 16_pmp_sandbox (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\16_pmp_sandbox","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 17_ota_mmu",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\17_ota_mmu","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 17_ota_mmu (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\17_ota_mmu","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 17_ota_mmu (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\17_ota_mmu","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 17_ota_mmu (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\17_ota_mmu","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 18_boot_diagnosis",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\18_boot_diagnosis","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 18_boot_diagnosis (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\18_boot_diagnosis","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 18_boot_diagnosis (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\18_boot_diagnosis","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 18_boot_diagnosis (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\18_boot_diagnosis","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 19_heap_fragmentation",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\19_heap_fragmentation","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 19_heap_fragmentation (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\19_heap_fragmentation","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 19_heap_fragmentation (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\19_heap_fragmentation","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 19_heap_fragmentation (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\19_heap_fragmentation","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 20_dma_cache",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\20_dma_cache","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 20_dma_cache (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\20_dma_cache","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 20_dma_cache (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\20_dma_cache","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 20_dma_cache (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\20_dma_cache","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 21_core_dump",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\21_core_dump","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 21_core_dump (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\21_core_dump","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 21_core_dump (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\21_core_dump","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 21_core_dump (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\21_core_dump","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 22_gdb_jtag",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\22_gdb_jtag","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 22_gdb_jtag (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\22_gdb_jtag","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 22_gdb_jtag (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\22_gdb_jtag","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 22_gdb_jtag (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\22_gdb_jtag","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 23_timer_compare",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\23_timer_compare","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 23_timer_compare (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\23_timer_compare","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 23_timer_compare (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\23_timer_compare","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 23_timer_compare (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\23_timer_compare","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 24_event_groups",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\24_event_groups","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 24_event_groups (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\24_event_groups","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 24_event_groups (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\24_event_groups","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 24_event_groups (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\24_event_groups","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Build 25_flash_security",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\25_flash_security","-Action","build"],
+      "group": "build", "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Flash 25_flash_security (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\25_flash_security","-Action","flash","-Port","COM4"],    },
+    {
+      "label": "Monitor 25_flash_security (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\25_flash_security","-Action","monitor","-Port","COM4"],
+      "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    },
+    {
+      "label": "Flash + Monitor 25_flash_security (COM4)",
+      "type": "shell", "command": "powershell",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\build_example.ps1","-ExamplePath","examples\\25_flash_security","-Action","flash-monitor","-Port","COM4"], "presentation": {"reveal":"always","panel":"dedicated"}, "problemMatcher": []
+    }
+  ]
+}
