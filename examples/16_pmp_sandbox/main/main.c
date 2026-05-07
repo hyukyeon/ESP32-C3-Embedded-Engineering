@@ -127,7 +127,7 @@ static void pmp_dump_all(void) {
         uint32_t phys = (addr << 2);  /* 간략화 — NAPOT 경우 추가 계산 필요 */
 
         printf("  [%2d] 0x%02X  %u  %s   %u %u %u  0x%08X  0x%08X %s\n",
-               i, cfg, L, mode_str[A], R, W, X, addr, phys,
+               i, cfg, L, mode_str[A], R, W, X, (unsigned)addr, (unsigned)phys,
                (A == 0) ? "(disabled)" : "");
     }
 }
@@ -153,8 +153,8 @@ static void pmp_protect_scratch(void) {
     uint32_t size = sizeof(g_protected);
 
     printf("\n[PMP 항목 6 설정: g_protected 버퍼 읽기 전용 보호]\n");
-    printf("  버퍼 물리 주소: 0x%08X  크기: %u bytes\n", base, size);
-    printf("  NAPOT pmpaddr : 0x%08X\n", napot_encode(base, size));
+    printf("  버퍼 물리 주소: 0x%08X  크기: %u bytes\n", (unsigned)base, (unsigned)size);
+    printf("  NAPOT pmpaddr : 0x%08X\n", (unsigned)napot_encode(base, size));
     printf("  cfg byte      : 0x%02X (R=1, W=0, X=0, A=NAPOT, L=0)\n",
            (uint8_t)(PMP_R | PMP_A_NAPOT));
 
@@ -172,7 +172,7 @@ static void pmp_protect_scratch(void) {
     /* 설정 검증 */
     uint32_t read_back = pmp_get_addr(6);
     uint8_t  cfg_back  = pmp_get_cfg(6);
-    printf("  pmpaddr6 읽기  : 0x%08X %s\n", read_back,
+    printf("  pmpaddr6 읽기  : 0x%08X %s\n", (unsigned)read_back,
            (read_back == pmpaddr_val) ? "(OK)" : "(MISMATCH!)");
     printf("  pmpcfg1 항목6  : 0x%02X   %s\n", cfg_back,
            (cfg_back == (PMP_R | PMP_A_NAPOT)) ? "(OK)" : "(MISMATCH!)");
@@ -226,7 +226,7 @@ static void print_mcause_table(void) {
         {7,  "Store/AMO access fault           ← PMP W=0 위반"},
     };
     for (int i = 0; i < (int)(sizeof(causes)/sizeof(causes[0])); i++) {
-        printf("  mcause=%-2u : %s\n", causes[i].code, causes[i].desc);
+        printf("  mcause=%-2u : %s\n", (unsigned)causes[i].code, causes[i].desc);
     }
     printf("\n  mtval = 위반이 발생한 물리 주소\n");
     printf("  mepc  = 위반을 일으킨 명령어의 주소 (함수+오프셋)\n");

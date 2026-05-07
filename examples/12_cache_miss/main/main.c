@@ -93,7 +93,7 @@ static void stats_add(Stats *s, uint32_t v) {
 static void stats_print(const char *label, const Stats *s) {
     double avg = s->n ? (double)s->sum / s->n : 0;
     printf("  %-22s  min=%5u  avg=%7.1f  max=%5u  spread=%u  (%.1f ns avg)\n",
-           label, s->min, avg, s->max, s->max - s->min,
+           label, (unsigned)s->min, avg, (unsigned)s->max, (unsigned)(s->max - s->min),
            avg * 1e9 / (double)CPU_FREQ_HZ);
 }
 
@@ -147,7 +147,7 @@ void app_main(void) {
     (void)r;
 
     printf("  Cold Miss (1st call) = %u cycles  (%.0f ns)\n",
-           cold_cy, (double)cold_cy * 1e9 / CPU_FREQ_HZ);
+           (unsigned)cold_cy, (double)cold_cy * 1e9 / CPU_FREQ_HZ);
 
     /* 워밍 샘플 수집 */
     Stats flash_warm = {0}, iram_stats = {0};
@@ -169,7 +169,7 @@ void app_main(void) {
     uint32_t warm_avg = flash_warm.sum / flash_warm.n;
     int32_t  penalty  = (int32_t)cold_cy - (int32_t)warm_avg;
     double   spi_ns   = (double)penalty * 1e9 / CPU_FREQ_HZ / 32.0;
-    printf("  Cold Miss penalty    = %+d cycles  (%.0f ns)\n", penalty,
+    printf("  Cold Miss penalty    = %+d cycles  (%.0f ns)\n", (int)penalty,
            (double)penalty * 1e9 / CPU_FREQ_HZ);
     printf("  추정 SPI 속도        = %.1f ns/byte (예상: ~12.5 ns @80 MHz)\n", spi_ns);
 
@@ -193,7 +193,7 @@ void app_main(void) {
         stats_add(&big_stats, rdcycle() - t0);
     }
 
-    printf("  Cold  = %u cycles\n", big_cold);
+    printf("  Cold  = %u cycles\n", (unsigned)big_cold);
     stats_print("Warm (post-eviction)", &big_stats);
     printf("  ↑ spread 큰 경우 캐시 용량 초과로 eviction 발생 중\n");
 

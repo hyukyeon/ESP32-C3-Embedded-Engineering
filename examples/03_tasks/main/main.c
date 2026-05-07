@@ -13,6 +13,7 @@
  * Watch the stack High Water Mark (HWM) to catch stack overflows before they happen.
  */
 #include <stdio.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
@@ -69,13 +70,13 @@ static void logger_task(void *arg) {
 
     static TaskHandle_t sensor_h  = NULL;
     static TaskHandle_t process_h = NULL;
+    (void)sensor_h; (void)process_h;  /* reserved for pvParameters pass-through */
 
-    /* Retrieve handles passed via pvParameters trick — here we pass them later */
     while (1) {
         uint32_t s = sensor_runs;
         uint32_t p = process_runs;
 
-        printf("[Logger] sensor_runs=%-5u  process_runs=%-5u\n", s, p);
+        printf("[Logger] sensor_runs=%-5" PRIu32 "  process_runs=%-5" PRIu32 "\n", s, p);
 
         /*
          * uxTaskGetStackHighWaterMark returns the minimum free stack words
@@ -83,7 +84,7 @@ static void logger_task(void *arg) {
          * Rule of thumb: allocate stack so HWM stays above 64 words.
          */
         printf("  Stack HWM  logger=%u words  (allocated 2048 bytes)\n",
-               uxTaskGetStackHighWaterMark(NULL));
+               (unsigned)uxTaskGetStackHighWaterMark(NULL));
 
         vTaskDelay(pdMS_TO_TICKS(2000));
     }

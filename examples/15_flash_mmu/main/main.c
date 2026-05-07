@@ -98,7 +98,7 @@ static void dump_mmu_range(const char *label, uint32_t vbase, int pages) {
         uint32_t vaddr    = vbase + (uint32_t)i * MMU_PAGE_SIZE;
         uint32_t fl_off   = phys_pg * MMU_PAGE_SIZE;
         printf("  [%2d] 0x%08X  page%-4u    0x%06X    %s\n",
-               i, entry, phys_pg, fl_off, valid ? "YES" : "no");
+               i, (unsigned)entry, (unsigned)phys_pg, (unsigned)fl_off, valid ? "YES" : "no");
         if (!valid) break; /* 무효 엔트리 이후는 건너뜀 */
     }
 }
@@ -117,12 +117,12 @@ void app_main(void) {
     uint32_t code_paddr = 0;
     int ret = vaddr_to_flash_offset(code_vaddr, &code_paddr);
 
-    printf("  app_main 가상 주소  : 0x%08X\n", code_vaddr);
+    printf("  app_main 가상 주소  : 0x%08X\n", (unsigned)code_vaddr);
     if (ret == 0) {
-        printf("  app_main 물리 오프셋: 0x%08X (Flash 내 위치)\n", code_paddr);
+        printf("  app_main 물리 오프셋: 0x%08X (Flash 내 위치)\n", (unsigned)code_paddr);
         printf("  소속 가상 페이지    : %u (0x%08X)\n",
-               (code_vaddr - IBUS_VADDR_BASE) / MMU_PAGE_SIZE,
-               IBUS_VADDR_BASE + ((code_vaddr - IBUS_VADDR_BASE) / MMU_PAGE_SIZE) * MMU_PAGE_SIZE);
+               (unsigned)((code_vaddr - IBUS_VADDR_BASE) / MMU_PAGE_SIZE),
+               (unsigned)(IBUS_VADDR_BASE + ((code_vaddr - IBUS_VADDR_BASE) / MMU_PAGE_SIZE) * MMU_PAGE_SIZE));
     } else {
         printf("  변환 실패 (%d) — IRAM 배치 함수이거나 MMU 미지원\n", ret);
     }
@@ -158,9 +158,9 @@ void app_main(void) {
 
     printf("  파티션 '%s'  Flash 물리 주소: 0x%08X\n",
            part->label, (unsigned)part->address);
-    printf("  mmap 가상 주소              : 0x%08X\n", mapped_vaddr);
+    printf("  mmap 가상 주소              : 0x%08X\n", (unsigned)mapped_vaddr);
     if (ret == 0) {
-        printf("  MMU 역산 물리 오프셋        : 0x%08X\n", mapped_paddr);
+        printf("  MMU 역산 물리 오프셋        : 0x%08X\n", (unsigned)mapped_paddr);
         if (mapped_paddr == (uint32_t)part->address) {
             printf("  ✓ 역산 결과 = 파티션 물리 주소 (일치!)\n");
         } else {

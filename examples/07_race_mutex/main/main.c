@@ -18,6 +18,7 @@
  *   Expected result: 20000. Actual result: exactly 20000.
  */
 #include <stdio.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -64,7 +65,7 @@ static void run_phase(const char *label, TaskFunction_t fn) {
     g_done_count = 0;
     uint32_t expected = ITERS_PER_TASK * 2;
 
-    printf("\n[%s] Starting — expected final count: %u\n", label, expected);
+    printf("\n[%s] Starting — expected final count: %" PRIu32 "\n", label, expected);
 
     /* Same priority ensures time-slicing (frequent context switches) */
     xTaskCreate(fn, "T1", 2048, NULL, 5, NULL);
@@ -78,9 +79,9 @@ static void run_phase(const char *label, TaskFunction_t fn) {
     uint32_t result = g_counter;
     int32_t  lost   = (int32_t)expected - (int32_t)result;
 
-    printf("[%s] Final count : %u / %u\n", label, result, expected);
+    printf("[%s] Final count : %" PRIu32 " / %" PRIu32 "\n", label, result, expected);
     if (lost > 0) {
-        printf("[%s] Data LOST   : %d increments vanished (%.2f%%)\n",
+        printf("[%s] Data LOST   : %" PRId32 " increments vanished (%.2f%%)\n",
                label, lost, 100.0f * lost / expected);
     } else {
         printf("[%s] Result      : CORRECT — no data loss\n", label);
@@ -102,7 +103,7 @@ static void bench_critical_section(void) {
         portEXIT_CRITICAL(&mux);
     }
     __asm__ __volatile__("csrr %0, mcycle" : "=r"(end) :: "memory");
-    printf("\n[Critical Section] 1000x portENTER/EXIT_CRITICAL: %u cycles total (%.1f/iter)\n",
+    printf("\n[Critical Section] 1000x portENTER/EXIT_CRITICAL: %" PRIu32 " cycles total (%.1f/iter)\n",
            end - start, (float)(end - start) / 1000.0f);
 
     volatile uint32_t mx_count = 0;
@@ -113,7 +114,7 @@ static void bench_critical_section(void) {
         xSemaphoreGive(g_mutex);
     }
     __asm__ __volatile__("csrr %0, mcycle" : "=r"(end) :: "memory");
-    printf("[Critical Section] 1000x xSemaphoreTake/Give:     %u cycles total (%.1f/iter)\n",
+    printf("[Critical Section] 1000x xSemaphoreTake/Give:     %" PRIu32 " cycles total (%.1f/iter)\n",
            end - start, (float)(end - start) / 1000.0f);
     printf("  Critical section is faster but blocks interrupts.\n"
            "  Mutex is slower but allows interrupts — prefer mutex for longer sections.\n");

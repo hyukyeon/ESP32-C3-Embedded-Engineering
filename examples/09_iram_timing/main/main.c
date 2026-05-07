@@ -20,6 +20,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_attr.h"
@@ -90,8 +91,8 @@ static Stats collect(const char *label, uint32_t (*fn)(void), int count) {
 
     printf("[%-5s] min=%-5u  max=%-5u  avg=%-5u cycles  "
            "spread=%-4u  avg_ns=%.1f\n",
-           label, s.min, s.max, s.avg,
-           s.max - s.min,
+           label, (unsigned)s.min, (unsigned)s.max, (unsigned)s.avg,
+           (unsigned)(s.max - s.min),
            (double)s.avg * 1e9 / (double)CPU_FREQ_HZ);
     return s;
 }
@@ -109,12 +110,12 @@ static void print_histogram(const Stats *s, int count, const char *label) {
         buckets[b]++;
     }
 
-    printf("[%s histogram]  (%u–%u cycles, bucket=%u)\n", label, lo, hi, width);
+    printf("[%s histogram]  (%u–%u cycles, bucket=%u)\n", label, (unsigned)lo, (unsigned)hi, (unsigned)width);
     for (int b = 0; b < 10; b++) {
         uint32_t bar = buckets[b] * 30 / count;
-        printf("  %4u |", lo + b * width);
+        printf("  %4u |", (unsigned)(lo + b * width));
         for (uint32_t j = 0; j < bar; j++) putchar('#');
-        printf(" %u\n", buckets[b]);
+        printf(" %u\n", (unsigned)buckets[b]);
     }
 }
 
@@ -131,11 +132,11 @@ void app_main(void) {
 
         int32_t avg_delta = (int32_t)flash_stats.avg - (int32_t)iram_stats.avg;
         printf("\nFlash vs IRAM avg delta: %+d cycles (%.1f ns)\n",
-               avg_delta, (double)avg_delta * 1e9 / (double)CPU_FREQ_HZ);
+               (int)avg_delta, (double)avg_delta * 1e9 / (double)CPU_FREQ_HZ);
         printf("Flash spread: %u cycles  (non-determinism from cache)\n",
-               flash_stats.max - flash_stats.min);
+               (unsigned)(flash_stats.max - flash_stats.min));
         printf("IRAM  spread: %u cycles  (deterministic)\n\n",
-               iram_stats.max - iram_stats.min);
+               (unsigned)(iram_stats.max - iram_stats.min));
 
         print_histogram(&flash_stats, SAMPLES, "Flash");
         print_histogram(&iram_stats,  SAMPLES, "IRAM ");

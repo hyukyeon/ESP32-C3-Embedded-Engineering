@@ -25,6 +25,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
@@ -87,13 +88,13 @@ static void print_stats(void) {
     compute_stats();
     printf("\n[ISR Latency over %d samples at 160 MHz]\n", SAMPLES);
     printf("  min = %4u cycles  = %.0f ns\n",
-           g_stats.min, (double)g_stats.min * 1e9 / CPU_FREQ_HZ);
+           (unsigned)g_stats.min, (double)g_stats.min * 1e9 / CPU_FREQ_HZ);
     printf("  max = %4u cycles  = %.0f ns\n",
-           g_stats.max, (double)g_stats.max * 1e9 / CPU_FREQ_HZ);
+           (unsigned)g_stats.max, (double)g_stats.max * 1e9 / CPU_FREQ_HZ);
     printf("  avg = %4u cycles  = %.0f ns\n",
-           g_stats.avg, (double)g_stats.avg * 1e9 / CPU_FREQ_HZ);
+           (unsigned)g_stats.avg, (double)g_stats.avg * 1e9 / CPU_FREQ_HZ);
     printf("  jitter (max-min) = %u cycles  = %.0f ns\n",
-           g_stats.max - g_stats.min,
+           (unsigned)(g_stats.max - g_stats.min),
            (double)(g_stats.max - g_stats.min) * 1e9 / CPU_FREQ_HZ);
 
     /* Simple ASCII histogram — 8 buckets */
@@ -108,9 +109,9 @@ static void print_stats(void) {
     }
     printf("  Distribution:\n");
     for (int b = 0; b < 8; b++) {
-        printf("  %3u cy |", lo + b * w);
+        printf("  %3u cy |", (unsigned)(lo + b * w));
         for (uint32_t j = 0; j < buckets[b] * 30 / SAMPLES; j++) putchar('#');
-        printf(" %u\n", buckets[b]);
+        printf(" %u\n", (unsigned)buckets[b]);
     }
 }
 
@@ -162,7 +163,7 @@ void app_main(void) {
             if (latency > 0 && latency < 2000) {   /* sanity check */
                 g_stats.data[collected++] = (uint32_t)latency;
                 printf("[%2d] latency = %4u cycles  (%.0f ns)\n",
-                       collected, (uint32_t)latency,
+                       collected, (unsigned)latency,
                        (double)latency * 1e9 / CPU_FREQ_HZ);
             }
         } else {

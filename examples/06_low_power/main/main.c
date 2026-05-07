@@ -16,6 +16,7 @@
  *   2. GPIO   — wake when pin goes LOW (button press)
  */
 #include <stdio.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_sleep.h"
@@ -71,10 +72,10 @@ void app_main(void) {
     boot_count++;
 
     ESP_LOGI(TAG, "=== Deep-Sleep Demo ===");
-    printf("\n[Boot #%u]\n", boot_count);
+    printf("\n[Boot #%" PRIu32 "]\n", boot_count);
     print_reset_reason();
     print_wakeup_cause();
-    printf("  Total wakeups so far: %u\n\n", boot_count - 1);
+    printf("  Total wakeups so far: %" PRIu32 "\n\n", boot_count - 1);
 
     /* Configure GPIO wakeup (active-low, internal pull-up) */
     gpio_config_t io = {
@@ -97,7 +98,7 @@ void app_main(void) {
 
     /* Stay awake 3 s so log is visible */
     uint32_t awake_ms = 3000;
-    ESP_LOGI(TAG, "Staying awake for %u ms then entering deep-sleep...", awake_ms);
+    ESP_LOGI(TAG, "Staying awake for %" PRIu32 " ms then entering deep-sleep...", awake_ms);
     vTaskDelay(pdMS_TO_TICKS(awake_ms));
     total_wake_ms += awake_ms;
 

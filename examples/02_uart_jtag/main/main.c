@@ -15,6 +15,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
@@ -73,7 +74,7 @@ static void echo_task(void *arg) {
             if (idx > 0) {
                 buf[idx] = '\0';
                 echo_count++;
-                ESP_LOGI(TAG, "[Echo #%u] '%s' (%d bytes)", echo_count, buf, idx);
+                ESP_LOGI(TAG, "[Echo #%" PRIu32 "] '%s' (%d bytes)", echo_count, buf, idx);
                 printf(">> %s\r\n", buf);
                 fflush(stdout);
                 idx = 0;
@@ -94,11 +95,11 @@ static void heartbeat_task(void *arg) {
 
         /* Demonstrate all log levels — each has a distinct color in idf.py monitor */
         if (sec % 30 == 0) {
-            ESP_LOGE(TAG, "[t=%us] ERROR — a real problem occurred", sec);
+            ESP_LOGE(TAG, "[t=%" PRIu32 "s] ERROR — a real problem occurred", sec);
         } else if (sec % 10 == 0) {
-            ESP_LOGW(TAG, "[t=%us] WARN  — something unusual but not fatal", sec);
+            ESP_LOGW(TAG, "[t=%" PRIu32 "s] WARN  — something unusual but not fatal", sec);
         } else {
-            ESP_LOGI(TAG, "[t=%us] INFO  — normal heartbeat", sec);
+            ESP_LOGI(TAG, "[t=%" PRIu32 "s] INFO  — normal heartbeat", sec);
         }
 
         /*

@@ -28,6 +28,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/timers.h"

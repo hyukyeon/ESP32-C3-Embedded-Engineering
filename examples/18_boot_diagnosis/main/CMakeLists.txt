@@ -1,5 +1,5 @@
 idf_component_register(
     SRCS "main.c"
     INCLUDE_DIRS "."
-    REQUIRES esp_system esp_task_wdt driver
+    REQUIRES esp_system driver
 )

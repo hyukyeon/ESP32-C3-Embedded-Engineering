@@ -17,6 +17,7 @@
  *   esp_task_wdt_delete(NULL)— unregister current task
  */
 #include <stdio.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_task_wdt.h"
@@ -64,7 +65,7 @@ static void task_a(void *arg) {
     while (1) {
         tick++;
         esp_task_wdt_reset();  /* check in */
-        ESP_LOGI(TAG, "[Task A] alive tick=%u", tick);
+        ESP_LOGI(TAG, "[Task A] alive tick=%" PRIu32, tick);
 
         /* After 15 s, tell Task B to hang */
         if (tick == 15) {
@@ -106,7 +107,7 @@ static void task_b(void *arg) {
 
         tick++;
         esp_task_wdt_reset();  /* check in */
-        ESP_LOGI(TAG, "[Task B] alive tick=%u", tick);
+        ESP_LOGI(TAG, "[Task B] alive tick=%" PRIu32, tick);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
@@ -125,7 +126,12 @@ void app_main(void) {
      *   };
      *   esp_task_wdt_init(&cfg);
      */
-    esp_task_wdt_init(WDT_TIMEOUT_SEC, true);
+    const esp_task_wdt_config_t wdt_cfg = {
+        .timeout_ms     = WDT_TIMEOUT_SEC * 1000,
+        .idle_core_mask = 0,
+        .trigger_panic  = true,
+    };
+    esp_task_wdt_init(&wdt_cfg);
     ESP_LOGI(TAG, "TWDT initialized: timeout=%d s, panic=true", WDT_TIMEOUT_SEC);
 
     /* Both tasks subscribe; BOTH must check in to keep the timer alive */

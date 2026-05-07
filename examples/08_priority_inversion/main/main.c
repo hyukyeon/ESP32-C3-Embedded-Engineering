@@ -22,6 +22,7 @@
  * RUN WITH Mutex            → inversion resolved (HIGH runs before MID completes)
  */
 #include <stdio.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -43,47 +44,47 @@ static SemaphoreHandle_t g_resource;
 static void low_task(void *arg) {
     vTaskDelay(pdMS_TO_TICKS(100));   /* let HIGH and MID be created first */
 
-    printf("[t=%4u ms] LOW  acquires resource\n", NOW_MS());
+    printf("[t=%4u ms] LOW  acquires resource\n", (unsigned)NOW_MS());
     xSemaphoreTake(g_resource, portMAX_DELAY);
 
-    printf("[t=%4u ms] LOW  holding resource — doing long work (3 s)...\n", NOW_MS());
+    printf("[t=%4u ms] LOW  holding resource — doing long work (3 s)...\n", (unsigned)NOW_MS());
     /* Simulate 3 s of work while holding the resource */
     vTaskDelay(pdMS_TO_TICKS(3000));
 
-    printf("[t=%4u ms] LOW  releases resource\n", NOW_MS());
+    printf("[t=%4u ms] LOW  releases resource\n", (unsigned)NOW_MS());
     xSemaphoreGive(g_resource);
 
-    printf("[t=%4u ms] LOW  done\n", NOW_MS());
+    printf("[t=%4u ms] LOW  done\n", (unsigned)NOW_MS());
     vTaskDelete(NULL);
 }
 
 static void mid_task(void *arg) {
     vTaskDelay(pdMS_TO_TICKS(500));   /* start after LOW has the resource */
 
-    printf("[t=%4u ms] MID  running (no resource needed)\n", NOW_MS());
+    printf("[t=%4u ms] MID  running (no resource needed)\n", (unsigned)NOW_MS());
 
     /* MID does CPU work for 2 s — with inversion this will preempt LOW */
     for (int i = 0; i < 4; i++) {
-        printf("[t=%4u ms] MID  working... (%d/4)\n", NOW_MS(), i + 1);
+        printf("[t=%4u ms] MID  working... (%d/4)\n", (unsigned)NOW_MS(), i + 1);
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 
-    printf("[t=%4u ms] MID  done\n", NOW_MS());
+    printf("[t=%4u ms] MID  done\n", (unsigned)NOW_MS());
     vTaskDelete(NULL);
 }
 
 static void high_task(void *arg) {
     vTaskDelay(pdMS_TO_TICKS(300));   /* start after LOW has the resource */
 
-    printf("[t=%4u ms] HIGH tries to acquire resource\n", NOW_MS());
+    printf("[t=%4u ms] HIGH tries to acquire resource\n", (unsigned)NOW_MS());
     uint32_t wait_start = NOW_MS();
     xSemaphoreTake(g_resource, portMAX_DELAY);
 
     uint32_t waited = NOW_MS() - wait_start;
-    printf("[t=%4u ms] HIGH acquired resource (waited %u ms)\n", NOW_MS(), waited);
+    printf("[t=%4u ms] HIGH acquired resource (waited %u ms)\n", (unsigned)NOW_MS(), (unsigned)waited);
     xSemaphoreGive(g_resource);
 
-    printf("[t=%4u ms] HIGH done (waited %u ms for resource)\n", NOW_MS(), waited);
+    printf("[t=%4u ms] HIGH done (waited %u ms for resource)\n", (unsigned)NOW_MS(), (unsigned)waited);
     vTaskDelete(NULL);
 }
 

@@ -50,6 +50,8 @@
 #include "esp_efuse.h"
 #include "esp_efuse_table.h"
 #include "esp_idf_version.h"
+#include "esp_partition.h"
+#include "esp_flash.h"
 
 /* Secure Boot 헤더는 IDF 버전별 위치가 다름 */
 #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)

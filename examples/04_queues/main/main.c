@@ -18,6 +18,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
@@ -88,7 +89,7 @@ static void producer_task(void *arg) {
          */
         if (xQueueSend(g_data_queue, &pkt, pdMS_TO_TICKS(50)) != pdTRUE) {
             dropped++;
-            ESP_LOGW(TAG, "[%s] Queue FULL — packet dropped! (total drops: %u)",
+            ESP_LOGW(TAG, "[%s] Queue FULL — packet dropped! (total drops: %" PRIu32 ")",
                      names[id], dropped);
         }
 
@@ -117,18 +118,18 @@ static void consumer_task(void *arg) {
             total++;
             received[rx.sensor_id]++;
 
-            printf("[Consumer] #%-4u  %s id=%u  val=%.2f %s  t=%u ms  queue_depth=%u\n",
+            printf("[Consumer] #%-4" PRIu32 "  %s id=%u  val=%.2f %s  t=%" PRIu32 " ms  queue_depth=%u\n",
                    total,
                    names[rx.sensor_id],
                    rx.sensor_id,
                    rx.value,
                    units[rx.sensor_id],
                    rx.timestamp_ms,
-                   uxQueueMessagesWaiting(g_data_queue));
+                   (unsigned)uxQueueMessagesWaiting(g_data_queue));
         } else {
             /* Timeout — no data for 2 s, print summary */
-            printf("[Consumer] === Summary after %u received ===\n", total);
-            printf("  Temp:  %u  Humid: %u  Press: %u\n",
+            printf("[Consumer] === Summary after %" PRIu32 " received ===\n", total);
+            printf("  Temp:  %" PRIu32 "  Humid: %" PRIu32 "  Press: %" PRIu32 "\n",
                    received[SENSOR_TEMP], received[SENSOR_HUMID], received[SENSOR_PRESS]);
         }
     }

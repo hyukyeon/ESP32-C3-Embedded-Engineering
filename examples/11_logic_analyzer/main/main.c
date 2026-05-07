@@ -24,6 +24,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -159,10 +160,10 @@ static void analyzer_task(void *arg) {
 
                 /* Print edge event */
                 printf("[Edge %-4u] %s→%s  duration=%.2f µs (%u cy)\n",
-                       edge_count,
+                       (unsigned)edge_count,
                        prev_level ? "HI" : "LO",
                        s->level   ? "HI" : "LO",
-                       duration_us, duration_cy);
+                       duration_us, (unsigned)duration_cy);
             }
 
             prev_level = s->level;
@@ -178,11 +179,11 @@ static void analyzer_task(void *arg) {
             double freq_hz = (avg_high_us + avg_low_us > 0)
                 ? 1e6 / (avg_high_us + avg_low_us) : 0;
 
-            printf("\n=== Signal Analysis (%u edges) ===\n", edge_count);
+            printf("\n=== Signal Analysis (%u edges) ===\n", (unsigned)edge_count);
             printf("  avg HIGH : %.2f µs\n",  avg_high_us);
             printf("  avg LOW  : %.2f µs\n",  avg_low_us);
             printf("  est freq : %.1f Hz\n",  freq_hz);
-            printf("  buf used : %u / %u\n\n", buf_count(), BUF_SIZE);
+            printf("  buf used : %u / %u\n\n", (unsigned)buf_count(), (unsigned)BUF_SIZE);
         }
     }
 }

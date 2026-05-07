@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
@@ -117,7 +118,7 @@ typedef struct {
     /* 미스율 추정: IRAM 기준 사이클(~2 cy)을 제거하면 미스 사이클 */\
     /* 미스 1회 ≈ 26 cycle @160MHz, SPI 80MHz */                 \
     double _miss_est = (_cpa > 2.5) ? (_cpa - 2.0) / 26.0 : 0; \
-    printf("  %-28s  %6u cy  %5.1f cy/access  miss≈%.0f%%\n",  \
+    printf("  %-28s  %6" PRIu32 " cy  %5.1f cy/access  miss≈%.0f%%\n",  \
            label_, _cy, _cpa, _miss_est * 100.0);               \
 } while(0)
 

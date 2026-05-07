@@ -102,7 +102,7 @@ static void dump_ibus_pages(int max_pages) {
         uint32_t fl_off   = phys_pg * MMU_PAGE_SIZE;
         uint32_t vaddr    = IBUS_VADDR_BASE + (uint32_t)i * MMU_PAGE_SIZE;
         printf("  [%2d] 0x%08X  page %-4u    0x%06X      0x%08X\n",
-               i, e, phys_pg, fl_off, vaddr);
+               i, (unsigned)e, (unsigned)phys_pg, (unsigned)fl_off, (unsigned)vaddr);
         shown++;
     }
 }
@@ -182,9 +182,9 @@ void app_main(void) {
     uint32_t code_paddr  = 0;
     int      conv_result = vaddr_to_flash(code_vaddr, &code_paddr);
 
-    printf("  app_main 가상 주소   : 0x%08X\n", code_vaddr);
+    printf("  app_main 가상 주소   : 0x%08X\n", (unsigned)code_vaddr);
     if (conv_result == 0) {
-        printf("  app_main Flash 오프셋: 0x%08X\n", code_paddr);
+        printf("  app_main Flash 오프셋: 0x%08X\n", (unsigned)code_paddr);
         if (running && code_paddr >= (uint32_t)running->address &&
             code_paddr < (uint32_t)running->address + running->size) {
             printf("  ✓ 파티션 '%s' 범위 내 — MMU 매핑 정상\n", running->label);
